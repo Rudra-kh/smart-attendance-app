@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "054249c1-5178-4ac3-aee4-5a5b53196400"
+      }
+    },
+    "android": {
+      "package": "com.onkarr28.iotnewversion"
+    }
+  }
+}
