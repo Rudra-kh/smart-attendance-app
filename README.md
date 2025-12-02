@@ -62,41 +62,6 @@
 
 ---
 
-## 📸 App Screenshots
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Welcome Screen</strong><br>
-      <em>Clean, modern onboarding</em>
-    </td>
-    <td align="center">
-      <strong>Admin Dashboard</strong><br>
-      <em>Session management hub</em>
-    </td>
-    <td align="center">
-      <strong>QR Session</strong><br>
-      <em>Dynamic QR generation</em>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Student Panel</strong><br>
-      <em>Tab-based navigation</em>
-    </td>
-    <td align="center">
-      <strong>Attendance View</strong><br>
-      <em>Subject-wise tracking</em>
-    </td>
-    <td align="center">
-      <strong>About Developers</strong><br>
-      <em>3D carousel showcase</em>
-    </td>
-  </tr>
-</table>
-
----
-
 ## 🛠️ Tech Stack
 
 <table>
