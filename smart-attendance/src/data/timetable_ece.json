@@ -1,0 +1,40 @@
+{
+  "institute": "Dr Shyama Prasad Mukherjee International Institute of Information Technology, Naya Raipur",
+  "semester": "Autumn Semester 2025-26",
+  "program": "B.Tech I Semester ECE",
+  "branch": "ECE",
+  "semester_number": 1,
+  "room": "122",
+  "effectiveFrom": "2025-09-01",
+  "timeColumns": [
+    { "label": "09:00-09:55", "start": "09:00", "end": "09:55" },
+    { "label": "10:00-10:55", "start": "10:00", "end": "10:55" },
+    { "label": "11:00-11:55", "start": "11:00", "end": "11:55" },
+    { "label": "12:00-12:55", "start": "12:00", "end": "12:55" },
+    { "label": "13:00-14:00", "start": "13:00", "end": "14:00", "type": "break" },
+    { "label": "14:00-14:55", "start": "14:00", "end": "14:55" },
+    { "label": "15:00-15:55", "start": "15:00", "end": "15:55" },
+    { "label": "16:00-16:55", "start": "16:00", "end": "16:55" },
+    { "label": "17:00-17:55", "start": "17:00", "end": "17:55" }
+  ],
+  "slotCatalog": {
+    "X": { "subject": "IT Workshop: Full Stack Prototyping with AI Support", "faculty": "Prof. Srinivas" },
+    "H": { "subject": "Digital Electronics using Verilog", "faculty": "Dr. Maifuz" },
+    "P": { "subject": "International Language Competency (Advance2)", "faculty": "Dr. Aruna" },
+    "E": { "subject": "Problem Solving with C Programming", "faculty": "Dr. M K Rao" },
+    "L": { "subject": "Linear Algebra & Matrix Analysis", "faculty": "Dr. Mithilesh" },
+    "F": { "subject": "Calculus", "faculty": "Dr. Krishnanad" },
+    "I": { "subject": "International Language Competency (Advance1)", "faculty": "Dr. Aruna" },
+    "G": { "subject": "Internet of Things", "faculty": "Dr. Shrivishal Tripathi" },
+    "Z": { "subject": "Entrepreneurship and Design Thinking", "faculty": "Dr. Amit" },
+    "B": { "subject": "International Language Competency (Basic)", "faculty": "Dr. Harsh Sharma" },
+    "U": { "subject": "Environmental Studies", "faculty": "Dr. Paltani / Dr. Jyoti" }
+  },
+  "days": {
+    "Monday":    [ "", "X", "H", "H", "BREAK", "P", "P", "E", "E" ],
+    "Tuesday":   [ "X", "X", "L", "P", "BREAK", "H", "F", "I", "I" ],
+    "Wednesday": [ "H", "G", "", "E", "BREAK", "", "Z", "F", "F" ],
+    "Thursday":  [ "G", "G", "I", "B", "BREAK", "Z", "Z", "E", "" ],
+    "Friday":    [ "", "U", "U", "", "BREAK", "B", "B", "L", "L" ]
+  }
+}

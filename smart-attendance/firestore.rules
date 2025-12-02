@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function sessionData(sessionId) {
+      return get(/databases/$(database)/documents/sessions/$(sessionId)).data;
+    }
+
+    // Sessions collection
+    match /sessions/{sessionId} {
+      allow read: if isSignedIn();
+
+      // Only the creator may create/update/delete their session
+      allow create: if isSignedIn() && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.createdBy == request.auth.uid;
+
+      // Attendance subcollection for a session
+      match /attendance/{docId} {
+        allow read: if isSignedIn();
+
+        // Students can create an attendance record only if:
+        // - session is active
+        // - provided token matches currentToken
+        // - token hasn't expired (based on tokenExpiresAt)
+        allow create: if isSignedIn() && (
+          let s = sessionData(sessionId);
+          s.active == true &&
+          request.resource.data.token == s.currentToken &&
+          request.time < s.tokenExpiresAt
+        );
+
+        // No updates or deletes to attendance records from clients
+        allow update, delete: if false;
+      }
+    }
+  }
+}

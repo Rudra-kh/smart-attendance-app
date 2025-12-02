@@ -1,0 +1,47 @@
+{
+  "institute": "Dr. Shyama Prasad Mukherjee International Institute of Information Technology, Naya Raipur",
+  "semester": "Autumn 2025-26",
+  "program": "B.Tech CSE I Semester",
+  "branch": "B.Tech CSE",
+  "semester_number": 1,
+  "room": "138",
+  "effectiveFrom": "2025-09-01",
+  "timeColumns": [
+    { "label": "09:00-09:55", "start": "09:00", "end": "09:55" },
+    { "label": "10:00-10:55", "start": "10:00", "end": "10:55" },
+    { "label": "11:00-11:55", "start": "11:00", "end": "11:55" },
+    { "label": "12:00-12:55", "start": "12:00", "end": "12:55" },
+    { "label": "13:00-14:00", "start": "13:00", "end": "14:00", "type": "break" },
+    { "label": "14:00-14:55", "start": "14:00", "end": "14:55" },
+    { "label": "15:00-15:55", "start": "15:00", "end": "15:55" },
+    { "label": "16:00-16:55", "start": "16:00", "end": "16:55" },
+    { "label": "17:00-17:55", "start": "17:00", "end": "17:55" }
+  ],
+  "slotCatalog": {
+    "E": { "subject": "Linear Algebra & Matrix Analysis", "faculty": "Dr. Mithilesh" },
+    "H": { "subject": "Calculus", "faculty": "Dr. Chandrashekhar" },
+    "L": { "subject": "Problem Solving with C Programming", "faculty": "Dr. Ruhul" },
+    "F": { "subject": "Digital Electronics using Verilog", "faculty": "Dr. Manoj" },
+    "G": { "subject": "Internet of Things", "faculty": "Dr. Anurag" },
+    "I": { "subject": "International Language Competency (Advance 1)", "faculty": "Dr. Aruna" },
+    "P": { "subject": "International Language Competency (Advance 2)", "faculty": "Dr. Aruna" },
+    "V": { "subject": "IT Workshop: Full Stack Prototyping with AI Support", "faculty": "Prof. Srinivasa" },
+    "D": { "subject": "Environmental Studies", "faculty": "Dr. Paltani / Dr. Jyoti" },
+    "X": { "subject": "Entrepreneurship & Design Thinking", "faculty": "Dr. Amit" },
+    "B": { "subject": "International Language Competency (Basic)", "faculty": "Dr. Harsh Sharma" }
+  },
+  "days": {
+    "Monday":    [ "", "H", "H", "F", "", "P", "P", "E", "E" ],
+    "Tuesday":   [ "X", "X", "V", "P", "", "H", "", "I", "I" ],
+    "Wednesday": [ "", "G", "X", "E", "", "V", "V", "F", "F" ],
+    "Thursday":  [ "", "", "I", "B", "", "L", "D", "D", "" ],
+    "Friday":    [ "G", "G", "L", "F", "", "B", "B", "L", "L" ]
+  },
+  "notes": [
+    "Updated to Autumn 2025-26 official schedule provided by user.",
+    "International Language Competency split into Basic (B), Advance 1 (I), Advance 2 (P).",
+    "Break retained at 13:00 (index 4).",
+    "Subjects adjusted to use ampersand (&) per latest naming where applicable.",
+    "Added branch and semester_number fields for metadata."
+  ]
+}

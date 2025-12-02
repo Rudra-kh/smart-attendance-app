@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "smart-attendance",
+    "slug": "smart-attendance",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#B3D4E8"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.onkar.smartattendance"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#B3D4E8"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.onkar.smartattendance",
+      "permissions": [
+        "CAMERA",
+        "INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyDEL5dAYnqvBj1TVaJbV-hRT-42Gtkhf5M",
+        "authDomain": "application-develpoment.firebaseapp.com",
+        "projectId": "application-develpoment",
+        "storageBucket": "application-develpoment.firebasestorage.app",
+        "messagingSenderId": "926607960563",
+        "appId": "1:926607960563:web:b63faa4e35519080d10a86"
+      },
+      "emulators": {
+        "enabled": false,
+        "host": "127.0.0.1",
+        "firestorePort": 8080,
+        "authPort": 9099,
+        "bypassLogin": true
+      },
+      "demoMode": false,
+      "eas": {
+        "projectId": "1e6fec10-4948-4a89-b32c-ac73cdcb92f1"
+      }
+    },
+    "plugins": [
+      "expo-font",
+      "expo-build-properties"
+    ]
+  }
+}

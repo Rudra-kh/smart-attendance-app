@@ -1,0 +1,40 @@
+{
+  "institute": "Dr Shyama Prasad Mukherjee International Institute of Information Technology, Naya Raipur",
+  "semester": "Autumn Semester 2025-26",
+  "program": "B.Tech I Semester DSAI",
+  "branch": "DSAI",
+  "semester_number": 1,
+  "room": "135",
+  "effectiveFrom": "2025-09-01",
+  "timeColumns": [
+    { "label": "09:00-09:55", "start": "09:00", "end": "09:55" },
+    { "label": "10:00-10:55", "start": "10:00", "end": "10:55" },
+    { "label": "11:00-11:55", "start": "11:00", "end": "11:55" },
+    { "label": "12:00-12:55", "start": "12:00", "end": "12:55" },
+    { "label": "13:00-14:00", "start": "13:00", "end": "14:00", "type": "break" },
+    { "label": "14:00-14:55", "start": "14:00", "end": "14:55" },
+    { "label": "15:00-15:55", "start": "15:00", "end": "15:55" },
+    { "label": "16:00-16:55", "start": "16:00", "end": "16:55" },
+    { "label": "17:00-17:55", "start": "17:00", "end": "17:55" }
+  ],
+  "slotCatalog": {
+    "G": { "subject": "Digital Electronics using Verilog", "faculty": "Prof. Archana" },
+    "U": { "subject": "Entrepreneurship and Design Thinking", "faculty": "Dr. Amit" },
+    "P": { "subject": "International Language Competency (Advance2)", "faculty": "Dr. Aruna" },
+    "E": { "subject": "Linear Algebra & Matrix Analysis", "faculty": "Dr. Krishnanand" },
+    "D": { "subject": "Calculus", "faculty": "Dr. Chandrashekhar" },
+    "L": { "subject": "Problem Solving with C Programming", "faculty": "Dr. Satya" },
+    "F": { "subject": "Internet of Things", "faculty": "Dr. Abhishek" },
+    "I": { "subject": "International Language Competency (Advance1)", "faculty": "Dr. Aruna" },
+    "Z": { "subject": "IT Workshop: Full Stack Prototyping with AI Support", "faculty": "Prof. Srinivas" },
+    "V": { "subject": "Environmental Studies", "faculty": "Dr. Paltani / Dr. Jyoti" },
+    "B": { "subject": "International Language Competency (Basic)", "faculty": "Dr. Harsh Sharma" }
+  },
+  "days": {
+    "Monday":    [ "G", "U", "", "", "BREAK", "P", "P", "E", "E" ],
+    "Tuesday":   [ "", "D", "L", "P", "BREAK", "", "F", "I", "I" ],
+    "Wednesday": [ "", "G", "Z", "E", "BREAK", "V", "V", "F", "F" ],
+    "Thursday":  [ "G", "G", "I", "B", "BREAK", "Z", "Z", "D", "D" ],
+    "Friday":    [ "U", "U", "L", "", "BREAK", "B", "B", "L", "L" ]
+  }
+}
