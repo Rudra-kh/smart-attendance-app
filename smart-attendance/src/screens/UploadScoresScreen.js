@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, Switch, Platform } from 'react-native';
 import colors from '../theme/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,6 +11,7 @@ import XLSX from 'xlsx';
 import timetableCSE from '../data/timetable.json';
 import timetableECE from '../data/timetable_ece.json';
 import timetableDSAI from '../data/timetable_dsai.json';
+import { parseExcelWithAI, isGeminiAvailable } from '../lib/gemini';
 
 const TEST_TYPES = [
   'Quiz 1', 'Quiz 2', 'Quiz 3',
@@ -26,9 +27,20 @@ export default function UploadScoresScreen({ navigation, route }) {
   const [testName, setTestName] = useState('');
   const [maxMarks, setMaxMarks] = useState('100');
   const [useAI, setUseAI] = useState(true);
+  const [aiAvailable, setAiAvailable] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [parsingStatus, setParsingStatus] = useState('');
+  const [aiConfidence, setAiConfidence] = useState(null);
+
+  // Check if Gemini is available on mount
+  useEffect(() => {
+    const available = isGeminiAvailable();
+    setAiAvailable(available);
+    if (!available) {
+      setUseAI(false);
+    }
+  }, []);
 
   const timetable = useMemo(() => {
     if (branch === 'ECE') return timetableECE;
@@ -62,9 +74,8 @@ export default function UploadScoresScreen({ navigation, route }) {
     }
   };
 
-  const parseExcelManually = async (base64Data) => {
+  const parseExcelToJSON = (base64Data) => {
     try {
-      // Convert base64 to array buffer for XLSX
       const binaryString = atob(base64Data);
       const bytes = new Uint8Array(binaryString.length);
       for (let i = 0; i < binaryString.length; i++) {
@@ -75,9 +86,16 @@ export default function UploadScoresScreen({ navigation, route }) {
       const workbook = XLSX.read(arrayBuffer, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      return XLSX.utils.sheet_to_json(sheet, { defval: '' });
+    } catch (error) {
+      console.error('Excel parse error:', error);
+      return null;
+    }
+  };
 
-      if (data.length === 0) {
+  const parseDataManually = (data, defaultMaxMarks) => {
+    try {
+      if (!data || data.length === 0) {
         return { error: 'Excel file is empty or has invalid format' };
       }
 
@@ -103,7 +121,7 @@ export default function UploadScoresScreen({ navigation, route }) {
         const rollNo = rollNoKey ? String(row[rollNoKey]).trim() : '';
         const name = nameKey ? String(row[nameKey]).trim() : '';
         const marks = marksKey ? Number(row[marksKey]) || 0 : 0;
-        const rowMaxMarks = maxMarksKey ? Number(row[maxMarksKey]) || Number(maxMarks) : Number(maxMarks);
+        const rowMaxMarks = maxMarksKey ? Number(row[maxMarksKey]) || defaultMaxMarks : defaultMaxMarks;
 
         if (rollNo) {
           students.push({
@@ -137,6 +155,7 @@ export default function UploadScoresScreen({ navigation, route }) {
 
     setUploading(true);
     setParsingStatus('Reading file...');
+    setAiConfidence(null);
 
     try {
       let base64Data = '';
@@ -156,8 +175,30 @@ export default function UploadScoresScreen({ navigation, route }) {
         });
       }
 
-      setParsingStatus('Parsing Excel file...');
-      const result = await parseExcelManually(base64Data);
+      // First parse Excel to get raw JSON
+      setParsingStatus('Parsing Excel structure...');
+      const rawData = parseExcelToJSON(base64Data);
+      
+      if (!rawData || rawData.length === 0) {
+        Alert.alert('Parse Error', 'Excel file is empty or has invalid format');
+        setUploading(false);
+        return;
+      }
+
+      let result;
+      
+      // Use AI parsing if enabled and available
+      if (useAI && aiAvailable) {
+        setParsingStatus('🤖 AI analyzing Excel structure...');
+        result = await parseExcelWithAI(rawData, Number(maxMarks) || 100);
+        
+        if (result.confidence) {
+          setAiConfidence(result.confidence);
+        }
+      } else {
+        setParsingStatus('Parsing Excel file...');
+        result = parseDataManually(rawData, Number(maxMarks) || 100);
+      }
 
       if (result.error) {
         Alert.alert('Parse Error', result.error);
@@ -192,15 +233,20 @@ export default function UploadScoresScreen({ navigation, route }) {
           percentage,
           branch,
           uploadedAt: serverTimestamp(),
+          parsedWithAI: useAI && aiAvailable,
         });
         
         uploaded++;
         setParsingStatus(`Uploading ${uploaded}/${result.students.length} records...`);
       }
 
+      const aiNote = (useAI && aiAvailable && aiConfidence) 
+        ? `\n\nAI Confidence: ${aiConfidence}` 
+        : '';
+
       Alert.alert(
         'Success',
-        `Successfully uploaded ${uploaded} student scores`,
+        `Successfully uploaded ${uploaded} student scores${aiNote}`,
         [{ text: 'OK', onPress: () => navigation.goBack() }]
       );
     } catch (error) {
@@ -413,32 +459,74 @@ export default function UploadScoresScreen({ navigation, route }) {
           borderRadius: 16,
           padding: 16,
           marginBottom: 12,
+          opacity: aiAvailable ? 1 : 0.7,
         }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <MaterialCommunityIcons name="robot" size={20} color={colors.primary} />
+              <MaterialCommunityIcons 
+                name="robot" 
+                size={20} 
+                color={aiAvailable ? colors.primary : '#9CA3AF'} 
+              />
               <Text style={{ fontWeight: '600', color: colors.textPrimary }}>AI-Powered Parsing</Text>
+              {aiAvailable && (
+                <View style={{ backgroundColor: '#10B981', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 }}>
+                  <Text style={{ fontSize: 10, color: '#FFF', fontWeight: '600' }}>READY</Text>
+                </View>
+              )}
             </View>
             <Switch
               value={useAI}
               onValueChange={setUseAI}
+              disabled={!aiAvailable}
               trackColor={{ false: '#E5E7EB', true: colors.primary + '80' }}
               thumbColor={useAI ? colors.primary : '#9CA3AF'}
             />
           </View>
           <Text style={{ color: colors.textSecondary, fontSize: 12, marginTop: 8 }}>
-            Use Google Gemini to intelligently parse your Excel file
+            {aiAvailable 
+              ? 'Use Google Gemini to intelligently parse your Excel file'
+              : '⚠️ Add Gemini API key in app.json to enable AI parsing'}
           </Text>
-          <View style={{
-            backgroundColor: '#EFF6FF',
-            borderRadius: 8,
-            padding: 12,
-            marginTop: 12,
-          }}>
-            <Text style={{ fontSize: 12, color: '#1E40AF' }}>
-              ✨ AI will automatically detect columns, handle messy data, and extract student information intelligently.
-            </Text>
-          </View>
+          {aiAvailable ? (
+            <View style={{
+              backgroundColor: '#EFF6FF',
+              borderRadius: 8,
+              padding: 12,
+              marginTop: 12,
+            }}>
+              <Text style={{ fontSize: 12, color: '#1E40AF' }}>
+                ✨ AI will automatically detect columns, handle messy data, and extract student information intelligently.
+              </Text>
+            </View>
+          ) : (
+            <View style={{
+              backgroundColor: '#FEF3C7',
+              borderRadius: 8,
+              padding: 12,
+              marginTop: 12,
+            }}>
+              <Text style={{ fontSize: 12, color: '#92400E' }}>
+                📝 To enable AI: Add "geminiApiKey": "YOUR_KEY" to app.json under expo.extra
+              </Text>
+            </View>
+          )}
+          {aiConfidence && (
+            <View style={{
+              backgroundColor: aiConfidence === 'high' ? '#D1FAE5' : aiConfidence === 'medium' ? '#FEF3C7' : '#FEE2E2',
+              borderRadius: 8,
+              padding: 8,
+              marginTop: 8,
+            }}>
+              <Text style={{ 
+                fontSize: 11, 
+                color: aiConfidence === 'high' ? '#065F46' : aiConfidence === 'medium' ? '#92400E' : '#991B1B',
+                fontWeight: '500'
+              }}>
+                AI Confidence: {aiConfidence.toUpperCase()}
+              </Text>
+            </View>
+          )}
         </View>
 
         {/* File Picker */}
