@@ -32,7 +32,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "geminiApiKey": "",
+      "geminiApiKey": "AIzaSyCmm86MxhKHwH9V7ITNh43bH5ft35Vbgdk",
       "firebase": {
         "apiKey": "AIzaSyDEL5dAYnqvBj1TVaJbV-hRT-42Gtkhf5M",
         "authDomain": "application-develpoment.firebaseapp.com",
